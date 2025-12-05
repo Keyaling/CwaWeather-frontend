@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>森森天氣</title>
+    <title>21世紀的天氣預報</title>
     <link rel="icon" type="image/png" href="./icon-v2.png">
     <link rel="apple-touch-icon" href="./icon-v2.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./icon-v2.png">
@@ -15,16 +15,15 @@
 
 
     <style>
+        /* 🎨 多啦A夢卡通主題色 */
         :root {
-            /* 🎨 多啦A夢主題色 */
-            --dora-blue: #0093D3;
-            --dora-red: #E70012;
-            --dora-yellow: #FFEC00;
+            --dora-blue: #00A2E8;       /* 主藍：更亮、更飽和 */
+            --dora-blue-dark: #005C96;  /* 深藍：描邊用 */
+            --dora-red: #FF1A1A;        /* 卡通紅 */
+            --dora-yellow: #FFD700;     /* 鈴鐺黃 */
             --dora-white: #FFFFFF;
-            --dora-gray: #E5E5E5;
-
-            /* 過去風格保留但不再使用 */
-            --ac-dark: #333;
+            --dora-black: #222222;      /* 描邊黑 */
+            --dora-gray: #EDEDED;       /* 柔灰 */
         }
 
         * {
@@ -37,42 +36,42 @@
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
 
-            /* 背景改成多啦A夢藍 + 柔邊白雲風格 */
+            /* 淺雲多啦A夢藍背景 */
             background-color: var(--dora-blue);
             background-image:
-                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.6), transparent 60%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.4), transparent 70%),
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.6), transparent 70%),
                 radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.5), transparent 60%);
 
             min-height: 100vh;
-            color: #333;
+            color: var(--dora-black);
             overflow-x: hidden;
             padding-bottom: 20px;
         }
 
-        /* ⭐ 頂部狀態列 = 哆啦A夢紅色圓角條 */
+        /* === 頂部狀態列 === */
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
             background: var(--dora-red);
-            color: var(--dora-white);
+            color: white;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 4px solid #B6000E;
+            border-bottom: 5px solid var(--dora-blue-dark);
         }
 
         .location-pill {
             background: var(--dora-yellow);
-            color: #444;
+            color: var(--dora-black);
             padding: 6px 15px;
             border-radius: 25px;
             font-weight: 900;
             font-size: 1.1rem;
-            border: 2px solid white;
-            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--dora-white);
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
         }
 
         .update-pill {
@@ -89,31 +88,30 @@
             margin: 0 auto;
         }
 
-        /* ⭐ 主卡片改為多啦A夢白底 + 藍色邊框 */
+        /* === 主卡片（多啦A夢厚描） === */
         .hero-card {
             background: var(--dora-white);
             border-radius: 35px;
             padding: 30px 25px;
             text-align: center;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-            border: 4px solid var(--dora-blue);
+            border: 5px solid var(--dora-blue-dark);
+            box-shadow: 0 12px 0 rgba(0, 0, 0, 0.25);
             margin-bottom: 25px;
             position: relative;
         }
 
-        /* 多啦A夢鈴鐺黃色 */
         .hero-period {
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--dora-yellow);
-            color: #444;
+            color: var(--dora-black);
             padding: 6px 20px;
             border-radius: 20px;
             font-weight: bold;
-            border: 3px solid var(--dora-white);
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+            border: 4px solid var(--dora-white);
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
         }
 
         .hero-temp-container {
@@ -135,52 +133,66 @@
         }
 
         .hero-temp {
-            font-size: 4.5rem;
+            font-size: 4.8rem;
             font-weight: 900;
             color: var(--dora-red);
+            text-shadow:
+                -3px -3px 0 white,
+                 3px -3px 0 white,
+                -3px  3px 0 white,
+                 3px  3px 0 white;
         }
 
         .hero-desc {
-            font-size: 1.5rem;
-            color: #555;
+            font-size: 1.6rem;
+            color: var(--dora-blue-dark);
             margin-bottom: 20px;
-            font-weight: bold;
+            font-weight: 900;
         }
 
-        /* 建議區改成白底藍框 */
+        /* === 建議卡片 === */
         .advice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 2px dashed var(--dora-gray);
+            border-top: 2px dashed var(--dora-blue-dark);
         }
 
         .advice-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: var(--dora-gray);
+            background: var(--dora-yellow);
             padding: 12px;
             border-radius: 20px;
-            border: 2px solid var(--dora-blue);
+            border: 3px solid var(--dora-blue-dark);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
         }
 
         .advice-text {
             font-size: 1.3rem;
             font-weight: 900;
             color: var(--dora-red);
+            text-shadow: 1px 1px 0 white;
         }
 
+        /* === 標題 === */
         .section-title {
-            font-size: 1.3rem;
-            color: var(--dora-yellow);
+            font-size: 1.45rem;
+            color: var(--dora-blue-dark);
             margin-bottom: 15px;
             margin-left: 10px;
             font-weight: 900;
+            text-shadow:
+                -2px -2px 0 white,
+                 2px -2px 0 white,
+                -2px  2px 0 white,
+                 2px  2px 0 white;
         }
 
+        /* === 滑動卡片 === */
         .scroll-container {
             display: flex;
             overflow-x: auto;
@@ -188,43 +200,41 @@
             padding-bottom: 10px;
             scrollbar-width: none;
         }
-
-        .scroll-container::-webkit-scrollbar {
-            display: none;
-        }
+        .scroll-container::-webkit-scrollbar { display: none; }
 
         .mini-card {
             min-width: 140px;
             background: var(--dora-white);
             border-radius: 20px;
             padding: 20px 15px;
+            border: 4px solid var(--dora-blue-dark);
+            box-shadow: 0 7px 0 rgba(0, 0, 0, 0.3);
             text-align: center;
-            border: 3px solid var(--dora-blue);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
         }
 
         .mini-time {
-            background: var(--dora-red);
-            color: white;
+            background: var(--dora-yellow);
+            color: var(--dora-red);
             padding: 4px 10px;
             border-radius: 10px;
             font-size: 0.8rem;
             font-weight: bold;
+            border: 2px solid var(--dora-blue-dark);
             margin-bottom: 10px;
         }
 
         .mini-icon {
-            font-size: 2.3rem;
+            font-size: 2.4rem;
             margin: 5px 0;
         }
 
         .mini-temp {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            color: #444;
+            color: var(--dora-black);
         }
 
-        /* Loading 畫面改成藍底白字 */
+        /* === Loading === */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -246,7 +256,7 @@
 <body>
     <div id="loading" class="loading-screen">
         <div style="font-size: 4rem; animation: bounce 2s infinite;">☁️</div>
-        <p style="color: white; font-weight: bold; margin-top: 20px;">正在觀測雲的流動...</p>
+        <p style="color: white; font-weight: bold; margin-top: 20px;">正在啟動多啦A夢的未來預報機...</p>
     </div>
     <div class="status-bar">
         <div class="location-pill">📍 新北</div>
